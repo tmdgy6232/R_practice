@@ -1,0 +1,835 @@
+a <- 1  # 내마음을 받아줘(변수 생성 및 초기화)
+a + 2
+
+b <- 3.5
+
+# 여러값을 담는 변수
+var1 <- c(1, 2, 3, 4, 5)
+
+var2 <- c(1:5)
+
+var3 <- seq(1, 11, by=2)
+
+sum = var1 + var2
+
+# 문자열 변수
+
+str <- "a"
+str2 <- 'b'
+
+str + str2 # 문자열 연산 안됨? 
+
+str3 <- c('a', 'b', 'c')
+str4 <- c('Hello', 'World', 'Python')
+
+# 함수()
+mean(var1)
+
+max()
+min()
+sum()
+avg()
+
+# 문자열 다루는 함수
+paste(str4, collapse = ',')
+
+# Java  -> Library
+# Python -> module
+# R -> Package
+
+# * R에서 패키지 사용하는 방법
+# ggplot2는 시각화 Package
+# 1.R의 패키지 설치
+install.packages("ggplot2")
+# 2.패키지 import/load
+library(ggplot2)
+# 3.사용하기
+
+x <- c('a', 'a', 'b', 'c')
+x
+
+# 빈도 막대 그래프 출력
+qplot(x)
+
+# ggplot2의 mpg 데이터로 그래프 만들기
+# 보통 패키지 안에는 연습할 수 있게 기본 데이터셋이 첨부되어 있음
+
+# mpg : 미국 환경 보호국에서 공개한 자료 1999~2008년 사이 미국에서 출시한 자동차 234종의 연비관련 정보
+
+# hwy: 고속도로 연비
+qplot(data = mpg, x = hwy)
+
+# x출 cty: 도심 연비
+qplot(data = mpg, x = cty)
+
+# x축 drv, y축 hwy
+qplot(data = mpg, x = drv, y = cty)
+
+# 선그래프
+qplot(data = mpg, x = drv, y = cty, geom='line')
+
+# 상자그림 그래프
+qplot(data = mpg, x = drv, y = cty, geom='boxplot')
+
+# 상자그림 그래프, drv별 색 표현
+qplot(data = mpg, x = drv, y = cty, geom='boxplot', colour = drv)
+
+# 4. 데이터 프레임
+# - 행이 많은 데이터
+# -> 데이터 건수가 많음, 컴퓨터가 느려짐
+# -> 고급사양 장비 구축 필요
+
+# - 열이 많은 데이터
+# -> 분석방법의 한계
+# -> 고급 분석방법
+
+# 1. 변수 만들기
+english <- c(90, 78, 80, 66) #영어 점수
+math <- c(50, 60, 100, 45) #수학 점수
+kr <- c(60, 100, 40, 99) # 국어 점수
+
+# 2. 데이터프레임 만들기1
+df_midterm <- data.frame(english, math, kr)
+df_midterm
+
+class <- c(1, 1, 2, 2)
+df_midterm <- data.frame(english, math, kr, class)
+df_midterm
+
+# 데이터프레임 안 평균값 보기 $변수 
+mean(df_midterm$english)
+mean(df_midterm$math)
+mean(df_midterm$kr)
+
+# 2.데이터프레임 만들기2
+df_midterm <- data.frame(english = c(90, 60, 40, 50),
+                         math = c(60, 49, 90, 100),
+                         kr = c(99, 100, 66, 78),
+                         class= c(1, 1, 2, 2))
+
+df_midterm
+
+
+# 외부 데이터 이용하기
+# url: bit.ly/doit_ra
+# 파일 다운로드
+
+# R에서 엑셀을 사용하기 위한 패키지 설치
+install.packages('readxl')
+library(readxl)
+
+# 파일이 프로젝트 내에 존재하면 파일이름으로 호출 가능
+# but 파일이 외부에 존재하면 'D:\\r_workspace\easy_r\xecel_exam.xlsx'
+df_exam <- read_excel('excel_exam.xlsx')
+df_exam
+
+mean(df_exam$math)
+mean(df_exam$english)
+mean(df_exam$science)
+
+# 제목열이 없는 Excel파일 불러오기
+
+# 기존과 똑같이 불러오면 제목열로 만들어서 첫번째 열 데이터가 유실되는 상황이 발생
+df_exam_novar <- read_excel('excel_exam_novar.xlsx')
+df_exam_novar
+
+df_exam_novar2 <- read_excel('excel_exam_novar.xlsx', col_names = F)
+df_exam_novar2
+
+# 엑셀파일에 시트가 여러개 있는 경우
+df_exam_sheet <- read_excel("excel_exam_sheet.xlsx", sheet = 3)
+df_exam_sheet
+
+# CSV(comma-separated values) 파일 불러오기
+df_csv_exam <- read.csv('csv_exam.csv', stringsAsFactors = F)
+df_csv_exam
+
+# 문자가 들어있는 CSV파일을 불러올 때 주의할 점!
+# stringsAsFactors = F
+# R: datatype => Factor 이라는 타입이 있음
+# Factor Type 이란?
+#  남녀 컬럼
+# 남
+# 여
+# 남
+# 남
+# 여
+# 여
+# 남
+
+# Factor Type 예시
+# 성별 : 남, 여
+# 구동방식 : 4, f, r
+# 중국집 :  짜장면, 짬봉
+# 덮밥: 짜장, 카레, 하이라이스
+
+
+# csv 파일로 저장하기
+
+# dv_midterm -> csv 파일 생성
+write.csv(df_midterm, file='df_midterm.csv' )
+
+# R끼리 데이터를 주고 받을 때 
+# excel, csv 파일말고 R만 사용할경우
+# Rdata type으로 보내면 속도 향상
+save(df_midterm, file='df_midterm.rda')
+
+# 불러오기 전에 Data에서 삭제
+rm(df_midterm)
+# 확인
+df_midterm
+
+# 불러오기 
+load('df_midterm.rda')
+df_midterm
+
+# 5단원: 데이터 파악하기 
+exam <- read.csv('csv_exam.csv')
+exam
+# 데이터 파악함수
+# head()
+# tail()
+# view()
+# dim()
+# str()
+# summary()
+
+head(exam) # default :  6건 
+tail(exam) # default : 6건
+
+head(exam, 20)  # 더 많이 불러오고 싶을 때
+
+library('ggplot2')
+mpg # 데이터가 많아서 다 불러오지 못함
+View(mpg) # 생략된 데이터를 보고 싶을 때 View함수 사용
+
+# dim() = 데이터가 몇행, 몇열로 구성되어 있는지 확인
+dim(exam)
+
+# str() = 데이터의 속성 파악
+str(exam)
+
+# summary() = 요약 통계량
+summary(exam) 
+
+# 1st Qu(1사분위수): 하위 25% 지점
+# 3rd Qu(3사분위수): 하위 75% 지점
+
+
+# 변수명 바꾸기
+df_raw <- data.frame(var1 = c(1, 2, 1),
+                     var2 = c(2, 3, 2))
+
+# dplyr 패키지
+install.packages('dplyr')
+library('dplyr')
+
+df_new <- df_raw
+
+#rename이라는 함수를 써서 column 이름 변경
+df_new <- rename(df_new, v2 = var2)
+df_new
+
+# 파생변수 만들기
+# : 평균, 총합, 기타 등등
+
+df <- data.frame(var1 = c(4, 3, 8),
+                 var2 = c(2, 6, 1))
+df
+
+# 총합 만들기 
+df$var_sum <- df$var1 + df$var2
+df
+
+# 나누기 만들기
+df$var_mean <- (df$var1 + df$var2)/2
+df
+
+
+
+
+# mpg데이터 사용
+
+# 통합연비 만들기 (hwy + cty)
+mpg$total <- (mpg$cty + mpg$hwy)/2
+
+View(mpg)
+
+# 조건을 통한 파생변수 만들기
+summary(mpg$total)
+
+hist(mpg$total)
+
+# 연비가 20 이상이면 
+mpg$test <- ifelse(mpg$total >= 20, 'pass', 
+                   ifelse(mpg$total <= 10, 'trash', 'fail'
+                   ))
+
+table(mpg$test)
+qplot(mpg$test)
+
+#연비 종류
+# A : 30이상
+# B : 20~29
+# C : 20미만
+mpg$grade <- ifelse(mpg$total >= 30, 'A',
+                    ifelse(mpg$total >= 20, 'B', 'c'))
+
+
+table(mpg$grade)
+qplot(mpg$grade)
+
+
+# ** 6단원: 데이터 가공하기 - dplyr 패키지
+# **filter() 행 추출
+# **select() 열 추출
+# **agrrange() 정렬 
+# **mutate() 변수추가(파생변수)
+# **summarise() 통계치 산출
+# **group_by() 집단별로 그룹핑
+# left_join() 데이터 합치기(열)
+# bind_rows() 데이터 합치기(행)
+
+library('dplyr')
+exam <- read.csv('csv_exam.csv')
+exam
+
+# filter() : 행추출  (파이프 연산 : &>%)
+exam %>% filter(class == 1) # class가 1반
+exam %>% filter(class != 3) # class에서 3반 빼고 
+exam %>% filter(math >= 60) # 수학이 점수가 60점 이상인 
+exam %>% filter(class == 1 & math <= 60)# class가 1반이면서 수학점수가 60점이상
+exam %>% filter(math >= 60 | english >= 60)
+# 변수에 담고 싶을때
+class1 <- exam %>% filter(math >= 60 | english >= 60)
+
+#문제
+# q1) 자동차 배기량에 따라 고속도로 연비가 다른지 알아보려고한다. displ(배기량          )이 4이하인 자동차와 5이상인 자동차 중 어떤 자동차의 hwy(고속도로 연비) 가         평균적으로 높은지 알아보세요.
+
+mpg_a <- mpg %>% filter(displ <= 4)
+mpg_b <- mpg %>% filter(displ >= 5)
+
+mean(mpg_a$hwy)
+mean(mpg_b$hwy)
+
+# q2) 자동차 제조회사에 따라 도시 연비가 다른지 알아보려고 한다. 'audi'와               'toyota' 중 어느 manufacturer(자동차 제조회사)의 cty(도시 연비)가                 평균적으로 더 높은지 알아보세요
+
+mpg_audi <- mpg %>% filter(manufacturer == 'audi')
+mpg_toyota <- mpg %>% filter(manufacturer == 'toyota')
+
+mean(mpg_audi$cty)
+mean(mpg_toyota$cty)
+
+# q3) 'chevrolet', 'ford', 'honda' 자동차의 고속도로 연비 평균을 알아보고자 한다         . 
+mpg_three <- mpg %>%
+  filter(manufacturer == 'chevrolet' |
+           manufacturer == 'ford' |
+           manufacturer == 'honda')
+
+View(mpg_three)
+
+mpg_three <- mpg %>%
+  filter(manufacturer %in% c('chevrolet',
+                             'ford',
+                             'honda'))
+
+mean(mpg_three$hwy)
+
+
+# select() : 열추출
+exam %>% select(math) # 한 개의 열을 추출 
+exam %>% select(math, english, science) # 여러 개의 열을 추출
+exam %>% select(-math, -english) # 특정 열을 빼고 추출하고 싶을 때 -
+
+# select 와 필터를 같이 쓰고 싶을 때
+exam %>% 
+  filter(class == 1) %>% 
+  select(english) %>%
+  head(3) # 추가 상위 3등까지 보고 싶을 때
+
+# q1) mpg 데이터는 1개 변수로 구성되어 있다. 이중 일부만 추출해 분석에 활용하려고 한다. mpg 데이터에서 class, cty만 추출해서 새로운 변수를 생성하시오.
+mpg_new <- mpg %>% select(class, cty)
+
+# q1) 자동차 종류에 따라 도시 연비가 다른지 알아보려고 한다. 앞에서 추출한 데이터를 이용해서 class가 'suv'인 자동차와 'compact'인 자동차 중 어떤 자동차의 cty가 높은지 알아보자.
+
+df_com <- mpg_new %>% filter(class == 'compact')
+mean(df_com$cty)
+
+df_suv <- mpg_new %>% filter(class == 'suv')
+mean(df_suv$cty)
+
+
+# arrange() :  정렬
+exam %>% arrange(math) # default: 오름차순
+exam %>% arrange(desc(math)) # desc() = 내림차순
+exam %>% arrange(math, english) # 정렬조건 2개
+
+# q1) audi에서 생산한 자동차 중에 어떤 자동차 모델의 hwy가 높은지 알아보려고 한다. audi에서 생상한 자동차중 hwy가 1~5위에 해당하는 자동차 데티를 출력하세요
+
+mpg %>% filter(manufacturer == 'audi') %>%
+  arrange(desc(hwy)) %>%
+  head(5)
+
+# mutate() : 변수추가(파생변수)
+exam %>% 
+  mutate(total = math + english + science,
+         mean = (math + english + science)/3) %>%
+  arrange(desc(total)) %>%
+  head
+
+exam %>%
+  mutate(test = ifelse(science >= 60, "pass", 'fail')) %>%
+  head
+
+# q1) mgp() 데이터의 복사본을 만들고 cty와 hwy를 더한 '합산 연비 변수'를 추가하세요.
+mpg <- as.data.frame(ggplot2::mpg)
+mpg_new <- mpg
+mpg_new <- mpg_new %>%
+  mutate(total = cty + hwy)
+
+# q2) 앞에서 만든 합산연비변수를 2로 나눠 평균 연비변수를 추가하세요.
+mpg_new <- mpg_new %>% 
+  mutate(mean =  total / 2)
+
+# q3) 평균연비변수가 가장 높은 자동차 3종의 데이터를 출력하세요.
+mpg_new %>%
+  arrange(desc(mean)) %>%
+  head(3)
+
+# q4) 1~3번 문제를 해결할 수 있는 하나로 연결된 dplyr구문을 만들어 실해애보세요. 데이터는 복사본 대신 mpg 원본을 이용하세요
+
+mpg %>% 
+  mutate(total = cty+hwy,
+         mean = total/2 ) %>%
+  arrange(desc(mean)) %>%
+  head(3)
+
+
+# summarise() : 통계치 산출 (group_by()와 같이 쓰임 sql havving절과 비슷)
+exam %>% summarise(mean_math = mean(math))
+
+# group_by() : 집단별로 그루핑
+exam %>%
+  group_by(class) %>%
+  summarise(mean_math = mean(math), # 평균
+            sum_math = sum(math), # 합계
+            median_math = median(math), # 중앙값
+            student = n()) # 학생수
+
+mpg %>% 
+  group_by(manufacturer, drv) %>% # 1.제조사로 그룹핑 2.구동방식으로 다시 한번 그룹핑
+  summarise(mean_cty = mean(cty)) %>%
+  arrange(desc(mean_cty)) %>%
+  head(10)
+
+
+# q1) 회사별로 'suv' 자동차의 도시 및 고속도로 통합 연비 평균을 구해 내림차순 정렬하고, 1~5위까지 출력하기
+
+mpg %>%
+  group_by(manufacturer) %>%
+  filter(class == 'suv') %>%
+  mutate(tot = (cty+hwy)/2) %>%
+  summarise(mean_tot = mean(tot)) %>%
+  arrange(desc(mean_tot)) %>%
+  head(5)
+
+# q1) mpg 데이터의 class는 'suv', 'compact'등 자동차를 특징에 따라 일곱 종류로 분류한 변수입니다. 어떤 차종의 도시 연비가 높은지 비교해보려고 합니다. class별 cty 평균을 구해보세요.
+mpg %>%
+  group_by(class) %>%
+  summarise(mean_cty = mean(cty))
+
+
+# q2) 앞 문제의 출력 결과는 class 값 알파벳 순으로 정렬되어 있습니다. 어떤 차종의 도시 연비가 높은지 쉽게 알아볼 수 있도록 cty 평균이 높은 순으로 정렬해 출력하세요.
+mpg %>%
+  group_by(class) %>%
+  summarise(mean_cty = mean(cty)) %>%
+  arrange(desc(mean_cty))
+# q3) 어떤 회사 자동차의 hwy가 가장 높은 지 알아보려고 합니다. hwy 평균이 가장 높은 회사 세곳을 출력하세요.
+mpg %>% 
+  group_by(manufacturer) %>%
+  summarise(mean_hwy = mean(hwy)) %>%
+  arrange(desc(mean_hwy)) %>%
+  head(3)
+
+# q4) 어떤 회사에서 'compact' 차종을 가장 많이 생산하는지 알아보려고 합니다. 각 회사별 'compact' 차종 수를 내림차순으로 정려해 출력하세요.
+library(dplyr)
+mpg %>%
+  filter(class == 'compact') %>%
+  group_by(manufacturer) %>%
+  summarise(count = n()) %>%
+  arrange(desc(count))
+
+
+# left_join() : 데이터 합치기(열)
+# 중간고사 데이터 생성
+test1 <- data.frame(id = c(1, 2, 3, 4, 5),
+                    midterm = c(60, 80, 70, 90,85))
+
+# 기말고사 데이터 생성
+
+test2 <- data.frame(id = c(1, 2, 3, 4, 5),
+                    finalterm = c(70, 89, 99, 100, 70))
+
+test1
+test2
+total <- left_join(test1, test2, by='id')
+total
+
+name <- data.frame(class = c(1, 2, 3, 4, 5),
+                   teacher = c('kim', 'choi', 'lee', 'park', 'jung'))
+
+exam_new <- left_join(exam, name, by = 'class')
+exam_new
+
+
+# bind_rows() : 데이터 합치기(행)
+# 학생 1-5번 시험 데이터 생성
+group_a <- data.frame(id= c(1, 2, 3, 4, 5),
+                      test = c(60, 70, 80, 100, 100))
+
+group_b <- data.frame(id= c(1, 2, 3, 4, 5),
+                      test = c(65, 74, 83, 100, 99))
+
+# 합치기전 주의  : 데이터 프레임의 컬럼이름과 수가 동일해야함
+# but 컬럼명이 다른 프레임을 세로로 합치고 싶으면 어떻게 해야될까요?
+
+group_all <- bind_rows(group_a, group_b)
+group_all
+
+#mpg 데이터의 fl 변수는 자동차에 사용하는 연료(fuel)를 의미합니다. 오른쪽은 자동차 연료별 가격을 나타낸 표입니다.
+# fl    연료종류      연료가격
+# c     CNG           2.35
+# d     diesel        2.38
+# e     ethanol E85   2.1
+# p     premium       2.76
+# r     regular       2.22
+
+#연료 종류를 제외한 나머지 colum을 포함하는 데이터 프레임을 생성하시오(열제목fl, price_fl)
+
+fuel <- data.frame(fl = c('c', 'd', 'e', 'p', 'r'),
+                   price_fl = c(2.35, 2.38, 2.11, 2.76, 2.22),
+                   stringsAsFactors = F) # 팩터타입 쓰지 않겠다.
+
+# Factors type 예시
+# 남성, 여성
+# 짜장면, 짬뽕
+# 가솔린, 디젤
+# 뭔가를 그룹화 할 수있는것
+fuel
+
+# q1) mpg 데이터에는 연료 종류를 나타낸 fl 변수는 있지만 연로 가격을 나타낸 변수는 없다. 위에서 만든 fuel 데이터를 이용해 mpg 데이터에 price_fl(연료가격) 변수를 추가하세요
+mpg <- as.data.frame(ggplot2::mpg)
+library('dplyt')
+mpg <- left_join(mpg, fuel, by = 'fl')
+mpg
+# q2) 연료 가격 변수가 잘 추가됐지 확인하기 위해 model, fl, price_fl 변수를 추출해 앞부분 5행만 출력해 보세요
+
+mpg %>%
+  select(model, fl, price_fl) %>%
+  head(5)
+
+# midwest 데이터 셋
+# : 미국 동북중부 237개 지역의 인구통계 정보
+
+midwest <- as.data.frame(ggplot2::midwest)
+View(midwest)
+
+# q) pupadults는 해당 지역의 성인인구, poptotal은 전체인구를 나타낸다. midwest 데이터에 전체인구 대비 미성년 인구 백분율 변수를 추가하세요(변수명=ratio_child)
+# (poptotal - popaudults)/ poptotal * 100
+midwest <- midwest %>%
+          mutate(ratio_child = (poptotal - popadults)/ poptotal * 100)
+
+#q2) 미성년 인구 백분율이 가장 높은 상위 5개 county(지역)의 미성년 인구 백분율을 출력하세요ㅕ.
+#지역ㅡ 미성년 인구 백분율
+midwest %>%
+  select(county, ratio_child) %>%
+  arrange(desc(ratio_child)) %>%
+  head(5)
+
+# q3) 분류표의 기준에 따라 미성년 비율 등급 변수를 추가하고, 각 등급에 몇개의 지역이 있는지 알아보세요
+
+# 분류    기준
+# large   40%
+# middle  30~40%
+# small   30%미만
+
+midwest <- midwest %>%
+          mutate(grade = ifelse(ratio_child >= 40, 'large', ifelse(ratio_child >=30, 'middle', 'small')))
+
+table(midwest$grade)
+
+#q4) popasian은 해당 지여ㅓㄱ의 아시아 인구를 나타냅니다.
+# '전체인구대비 아시아인구백분율 변수를 추가하고 하위 10개지역 
+# state(주), 'county' 지역, 아시아 인구 백분율을 출력하세요.
+
+midwest <- midwest %>%
+  mutate(ratio_asian = popasian/ poptotal * 100)
+
+midwest %>%
+  select(state, county, ratio_asian) %>%
+  arrange(desc(ratio_asian)) %>%
+  head(10)
+
+
+# 7. 데이터 정제 (빠진데이터, 이상한데이터 제거하기)
+# 빠진데이터 = 결측치 = NA
+# 이상한데이터 = 이상치
+
+#수학점수 평균 80점대
+#0점, 3점, 2점
+
+# 결측치가 있으면 문제가 발생
+# : 함수가 적용되지 않음
+# : 분석결과 왜곡
+
+# 결측치가 만들어지는 원인
+# 1. 실제 데이터에 값이 없는 경우
+
+
+# 실제 데이터에 결측치가 있는지 확인 후 제거하는 정제과정을 거치고 분석을 들어가야함
+df <- data.frame(sex = c('M', 'F', NA, 'M','F'),
+                 score = c(5,4,3,4,NA))
+
+df
+#갈측치 확인하기
+#is.na()
+is.na(df)
+table(is.na(df))
+table(is.na(df$score)) # score 결측치 확인
+
+library('dplyr')
+
+#score가 NA인 데이터만 출력
+df %>%
+  filter(is.na(score))
+
+# 데이터에서 결측치를 제거
+# 기존데이터 - 결측치 = 결과
+
+#결측치 제거
+df_nomiss <- df %>%
+  filter(!is.na(score))
+
+mean(df_nomiss$score)
+
+# 여러 변수에 결측치를 제거하는 방버
+df_nomiss <- df %>%
+  filter(!is.na(score) % !is.na(sex))
+
+# na.omit(): 결측치가 하나라도 있으면 제거
+df_nomiss2 <- na.omit(df)
+df_nomiss2
+
+# na.omit() 문제점 : 예를들어 성별, 소득 , 지역 세 가지의 변수로 구성된 데이터로 분석을 한다고 가정한다. 성별, 소득 두 변수의 결측치만 제거하고싶은 경우 na.omit()을 사용하면 성별,ㅣ 소득 뿐만아니라 지역 칼럼에 있는 결측치까지 모두 제거해 버린다. na.moit()은 모든 커럶에 결측치가 하나만 있어도 그 행 자체를 제거해버림, 즉 분석에 사용할 데이터까지 제거되는 경우가 있음. 번거롭더라도 filter를 사용해 분석에 사용할 변수의 결측치만 제거하는 방식을 권~장~해~요~
+
+#함수의 결측치 제외 기능 이용하디
+mean(df$score)
+mean(df$score, na.rm=T) # 결측치 제외 후 평균 산출
+
+# summrise() 결측치 제외 기능 사용하기
+exam <- read.csv('csv_exam.csv')
+
+
+exam[c(3, 8, 15), 'math'] <- NA # 임의로 결측치 생성성
+exam
+
+exam %>%
+  summarise(mean_math = mean(math))
+
+exam %>%
+  summarise(mean_math = mean(math, na.rm=T))
+
+exam %>%
+  summarise(mean_math = mean(math, na.rm=T),
+            sum_math = sum(math, na.rm=T),
+            median_math = median(math, na.rm=T))
+
+# 결측치 대체하기
+# : 결측치 <- 결측치 제거 후 분석실행했는데 이번엔 대체
+# 평균값으로 결측치 대체하기
+mean(exam$math, na.rm=T)
+
+exam$math <- ifelse(is.na(exam$math), 55, exam$math)
+table(is.na(exam$math))
+exam
+mean(exam)
+
+#mpg 데이터에는 결측치 없음, 우선 mpg 데이터를 불러와서 몇 개의 값을 결측치로 만든다
+
+mpg <- as.data.frame(ggplot2::mpg)
+mpg[c(65,124,131,153,212), 'hwy'] <- NA
+
+# q1) drv별로 hwy평균이 어떻게 되는지 알아보려고 한다. 분석을 하기 전에 우선 두 변수에 결측치가 있는지 확인해야한다. drv변수와 hwy변수에 결측치가 몇개 있는지 알아보세요(table, is.ma)사용
+
+table(is.na(mpg$drv))
+table(is.na(mpg$hwy))
+# q2) fileter()를 이용해 hwy 변수의 결측치를 제외하고, 어떤 구동방식의 hwy 평균이 높은지 알아보세요.
+#(하나의 dplyt) answkddmfh aksemfdjqhtpdy
+
+
+mpg %>%
+  filter(!is.na(hwy)) %>%
+  group_by(drv) %>%
+  summarise(mean_hwy = mean(hwy))
+
+
+#이상치
+# : 정상범주에서 크게 벗어난 값
+
+#이상치가 만들어지는 원인
+# 1. 데이터 수집 시 오류로 인한 값 변경
+# 2. 원래 극단적인 값
+
+# 이상치 문제점
+# 분석결과의 왜곡이 발생할 수 있음
+
+#이상치 해결방법
+# 1. 정제
+# 2. 제거
+
+# 이상치 제거하기 - 존재할 수 없는 값
+# 수학점수 (0~100) / 123점
+# 대학교 학점 / E학점
+# 성별 / 중성
+
+outlier <- data.frame(sex = c(1,2,1,3,2,1),
+                      score = c(5,4,3,4,2,6),
+                      score = c(3,6,2,2,4,5))
+
+outlier
+
+table(outlier$sex)
+
+# 이상치를 결측치로 변경
+
+outlier$sex <- ifelse(outlier$sex == 3, NA, outlier$sex)
+
+outlier
+
+# score가 5보다 크면 NA할당
+outlier$score <- ifelse(outlier$score > 5, NA, outlier$score)
+
+#결측치 제거 후 성별에 따른 score 평균을 구한다
+outlier %>%
+  filter(!is.na(sex) & !is.na(score)) %>%
+  group_by(sex) %>%
+  summarise(mean_score = mean(score))
+
+#이상치 제거하기 - 극단적인 값
+boxplot(mpg$hwy)
+boxplot(mpg$hwy)$stats
+
+# 12~37 벗어나면 NA 할당
+mpg$hwy <- ifelse(mpg$hwy < 12 | mpg$hwy > 37, NA, mpg$hwy)
+
+table(is.na(mpg$hwy))
+
+mpg %>%
+  group_by(drv) %>%
+  summarise(mean_hwy = mean(hwy, na.rm=T))
+
+
+#연습문제
+
+mpg <- as.data.frame(ggplot2::mpg)
+mpg[c(10, 14, 58, 93), 'drv'] <- 'k'
+mpg[c(29, 43, 129, 203), 'cty'] <- c(3,4,39,42)
+
+#q1) drv에 이상치가 있는지 확인하세요. 이상치를 결측처리한 후 이상치가 사라졌는지 확인하세요. 결측처리 할때는 %in% 기호를 활용하세요
+
+table(mpg$drv)
+
+mpg$drv <- ifelse(mpg$drv %in% c('4', 'f','r'), mpg$drv, NA) # c배열 안에 있는태그 왜에 다 결측처리리
+
+# q2) 상자 그림을 이용해 cty 에 이상치가 있는지 확이느, 상자 그림의 통계치를 이용해 정상 범위를 벗어난 값을 결측처리한 후 다시 상자그림을 만들어 이상치가 사라졌는지 확인하시오
+
+boxplot(mpg$cty)
+boxplot(mpg$cty)$stats
+
+mpg$cty <- ifelse(mpg$cty < 9 | mpg$cty > 26, NA, mpg$cty)
+mpg$cty
+boxplot(mpg$cty)
+
+# q3) 두 변수의 이상치를 결측처리 했으니 이제 분석할 차례입니다. 이상치를 제외한 다음 drv별로 cty 평균이 어떻게 다른지 알아보세요. 하나의 구문으로 만드십쇼
+
+mpg %>%
+  filter(!is.na(drv) & !is.na(cty)) %>%
+  group_by(drv) %>%
+  summarise(mean_cty = mean(cty))
+
+
+# 8단원 그래프 만들기
+# ggplot2 패키지 <- tlrkrghk vozlwl
+
+# 산점도 - 변수간 관계 표현하기
+# : 데이터를 x축과 y축의 점으로 표현한 그래프를 산점도라 한다. 
+# 산점도는 나이나 소득처럼 연속값으로 된 두 변수의 관계를 표현할 때 사용 
+
+# ggplot2 레이어 구조 이해하기
+# 총 3단계를 거쳐야 함
+# 1단계 : 배경설정(축)
+# 2단계 : 그래프추가(점, 막대, 선)
+# 3단계 : 설정 추가 ( 축 범위, 색, 표식)
+
+library(ggplot2)
+
+# 1단계
+# x축은 displ, y축은 hwy로 지정해 배경 생성
+
+ggplot(data = mpg, aes(x = displ, y = hwy))
+
+#2단계 
+ggplot(data = mpg, aes(x = displ, y = hwy)) + geom_point()
+
+#3단계
+#x 축 범위 3에서 6으로 지정
+ggplot(data = mpg, aes(x = displ, y = hwy)) + geom_point() + xlim(3,6)
+
+# y축 범위 10-30으로 지정
+ggplot(data = mpg, aes(x = displ, y = hwy)) + geom_point() + xlim(3,6) + ylim(10,30)
+
+
+#qplot() vs ggplot()
+# qplot은 기능이 많지는 않지만 문법이 간단하고 사용하기 쉬움, 데이터를 전처리 단계에서 빠르게 확인하고자 하는 용도로 많이 사요으 최종적으로 분석결과를 보고하기 위해 그래프를 만들때는 ggplot()을 사용함, ggplot()을 사용하면 다양한 그래프를 만들 수 있고, 색, 크기, 폰트 등 세부요소들을 자유롭게 조절 가능
+
+# q1) mpg 데이터의 cty와 hwy 간의 관계를 알아보고자 한다.
+# x축은 cty, y축은 hwy로 된 산점도를 만들어보세요
+ggplot(data=mpg, aes(x =cty, y =hwy)) + geom_point()
+
+# q2) 미국 지역별 인구통계 정보를 담은 ggplot2 패키지의 midwest 데ㅣ터를 이용해 전체 인구와 아시아인 인구 간에 어떤 관계가 있는지 알아보고자 한다. 전체인구는 50만 이하, 아시아인 인구는 1만명 이하인 지역판 산점도에 표기하여 작성하세요
+
+  
+ggplot(data=midwest, aes(x=poptotal, y=popasian)) + geom_point()+ xlim(0, 500000) + ylim(0, 10000)
+
+# 막대 그래프 - 집단 간 차이 표현하기 
+library(dplyr)
+mpg <- as.data.frame(ggplot2::mpg)
+df_mpg <- mpg %>%
+  group_by(drv) %>%
+  summarise(mean_hwy = mean(hwy))
+df_mpg
+# 막대그래프 정렬필수
+ggplot(data = df_mpg, aes(x=reorder(drv, -mean_hwy), y=mean_hwy)) + geom_col()
+
+# 빈도 막대그래프(값의 개수)
+
+ggplot(data = mpg, aes(x=drv)) + geom_bar()
+
+#x축에 연속 변수를 지정하면 값의 분포를 파악 가능
+ggplot(data = mpg, aes(x=hwy)) + geom_bar()
+
+
+# geom_col() vs geom_bar()
+# 평균 막대 그래프는 데이터를 요약한 평균포를 먼저 만든 후 이 평균포를 이용해 그래프를 그린다. 반면 빈도 막대그래프는 별도로 표를 만들지 않고 원자료를 이용해 바로 만든다. 요약표를 이용하는지 원자료를 이용하는지에 따라 그래프를 만드는 절차와 함수가 다르다! 요약표는 콜, 원자료는 바를 사용한다
+
+# q1) 어떤 회사에서 생산한 suv 차종의 도시 연비가 높은지 알아보려고 한다. suv 차종을 대상으로 평균 cty과 가장 높은 회사 다섯곳을 막대그래프로 표현해보자 막대는 연비가 높은순으로 정렬
+df <- mpg %>%
+  filter(class == 'suv') %>%
+  group_by(manufacturer) %>%
+  summarise(mean_cty = mean(cty)) %>%
+  arrange(desc(mean_cty)) %>%
+  head(5)
+df
+#q2) 자동차 중에서 어떤 class가 가장 많은지 알아보려고 한다. 자동차 종류별 빈도를 표현한 막대 그래프를 만들어 보세요.
+ggplot(data = df, aes(x= reorder(manufacturer, -mean_cty),
+                      y = mean_cty)) + geom_col()
